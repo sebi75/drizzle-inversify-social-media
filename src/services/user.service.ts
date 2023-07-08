@@ -27,8 +27,8 @@ class UserService {
 			.getDb()
 			.select()
 			.from(users)
-			.limit(params.limit ?? 10)
-			.offset(params.offset ?? 0);
+			.limit(params.limit)
+			.offset(params.offset);
 	};
 }
 

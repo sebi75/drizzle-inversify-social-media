@@ -15,6 +15,13 @@
       "when": 1688818813128,
       "tag": "0001_worthless_captain_stacy",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1688846232824,
+      "tag": "0002_last_sunset_bain",
+      "breakpoints": true
     }
   ]
 }

@@ -7,8 +7,8 @@ export const userRoutes = (container: Container) => {
 	const router = Router();
 	const userController = container.get<UserController>(TYPES.UserController);
 
+	router.get('/', userController.getUsers);
 	router.get('/:id', userController.getUser);
-	router.get('/:offset/:limit', userController.getUsers);
 
 	return router;
 };

@@ -16,11 +16,11 @@ class UserController {
 	};
 
 	getUsers = async (req: Request, res: Response): Promise<void> => {
-		const { offset, limit } = req.params;
+		const { limit, offset } = req.query;
 
 		const users = await this.userService.getUsers({
-			limit: parseInt(limit),
-			offset: parseInt(offset),
+			limit: parseInt(limit as string) ?? 10,
+			offset: parseInt(offset as string) ?? 0,
 		});
 
 		res.json(users);

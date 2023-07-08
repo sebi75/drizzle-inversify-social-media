@@ -2,7 +2,7 @@ import type { Config } from 'drizzle-kit';
 import dotenv from 'dotenv';
 
 dotenv.config();
-!process.env.SKIP_ENV_VALIDATION && (await import('./src/env/env.cjs'));
+// !process.env.SKIP_ENV_VALIDATION && (await import('./src/env/env.cjs'));
 
 export default {
 	schema: './src/db/schema.ts',

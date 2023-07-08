@@ -2,6 +2,7 @@ import {
 	mysqlTable,
 	text,
 	int,
+	boolean,
 	uniqueIndex,
 	primaryKey,
 } from 'drizzle-orm/mysql-core';
@@ -34,6 +35,14 @@ export const userProfile = mysqlTable(
 
 export type UserProfile = InferModel<typeof userProfile>;
 export type NewUserProfile = InferModel<typeof userProfile, 'insert'>;
+
+export const userEmailSettings = mysqlTable('user_email_settings', {
+	id: int('id').primaryKey().autoincrement(),
+	userId: int('user_id')
+		.notNull()
+		.references(() => users.id),
+	subscribed: boolean('subscribed').default(true),
+});
 
 export const posts = mysqlTable('posts', {
 	id: int('id').primaryKey().autoincrement(),
