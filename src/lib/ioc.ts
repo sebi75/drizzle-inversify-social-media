@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { Container } from 'inversify';
 import UserController from '@/api/controllers/UserController';
-import UserService from '@/services/userService';
+import UserService from '@/services/user.service';
 import Database from '@/db/db';
 import { TYPES } from './types';
 
