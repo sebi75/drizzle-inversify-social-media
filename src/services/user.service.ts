@@ -1,34 +1,19 @@
 import { inject, injectable } from 'inversify';
-import Database from '@/db/db';
 import { TYPES } from '@/lib/types';
-import { User, users } from '@/db/schema';
-import { eq } from 'drizzle-orm';
 import { GetUsersParams } from './domain/user.domain';
+import UserRepository from '@/repositories/userRepository';
 
 @injectable()
 class UserService {
-	constructor(@inject(TYPES.Database) private db: Database) {}
-
-	getUserById = async (id: number): Promise<User | null> => {
-		const user = await this.db
-			.getDb()
-			.select()
-			.from(users)
-			.where(eq(users.id, id));
-
-		if (user.length === 0) {
-			return null;
-		}
-		return user[0];
+	constructor(
+		@inject(TYPES.UserRepository) private userRepository: UserRepository
+	) {}
+	getUserById = async (id: number) => {
+		return await this.userRepository.getUserById(id);
 	};
 
-	getUsers = async (params: GetUsersParams): Promise<User[]> => {
-		return await this.db
-			.getDb()
-			.select()
-			.from(users)
-			.limit(params.limit)
-			.offset(params.offset);
+	getUsers = async (params: GetUsersParams) => {
+		return await this.userRepository.getUsers(params);
 	};
 }
 
