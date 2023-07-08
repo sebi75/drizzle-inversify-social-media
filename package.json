@@ -1,0 +1,35 @@
+{
+	"name": "test-drizzle",
+	"version": "1.0.0",
+	"description": "",
+	"main": "dist/app.js",
+	"scripts": {
+		"start": "tsc && node dist/app.js",
+		"dev": "nodemon --watch 'src/*' --exec 'ts-node -r tsconfig-paths/register' src/app.ts",
+		"generate": "drizzle-kit generate:mysql",
+		"migrate": "ts-node ./src/db/migrate.ts",
+		"db:introspect": "drizzle-kit introspect:mysql"
+	},
+	"keywords": [],
+	"author": "Sebastian Semeniuc",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/node": "^20.4.0",
+		"drizzle-kit": "^0.19.3",
+		"nodemon": "^2.0.22",
+		"ts-node": "^10.9.1",
+		"tsconfig-paths": "^4.2.0",
+		"typescript": "^5.1.6"
+	},
+	"dependencies": {
+		"@types/express": "^4.17.17",
+		"dotenv": "^16.3.1",
+		"drizzle-orm": "^0.27.0",
+		"express": "^4.18.2",
+		"inversify": "^6.0.1",
+		"mysql2": "^3.5.0",
+		"postgres": "^3.3.5",
+		"reflect-metadata": "^0.1.13",
+		"zod": "^3.21.4"
+	}
+}
