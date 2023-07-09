@@ -16,7 +16,7 @@ class AuthRepository {
 		email: string;
 		hashedPassword: string;
 		salt: string;
-	}): Promise<Account> => {
+	}): Promise<Omit<Account, 'hashedPassword' | 'salt'>> => {
 		const result = await this.db.getDb().insert(accounts).values({
 			email,
 			createdAt: new Date(),
@@ -27,7 +27,13 @@ class AuthRepository {
 		const accountId = result[0].insertId;
 		const account = await this.db
 			.getDb()
-			.select()
+			.select({
+				id: accounts.id,
+				email: accounts.email,
+				createdAt: accounts.createdAt,
+				lastLogin: accounts.lastLogin,
+				updatedAt: accounts.updatedAt,
+			})
 			.from(accounts)
 			.where(eq(accounts.id, accountId));
 		return account[0];
