@@ -63,7 +63,7 @@ export const accounts = mysqlTable(
 		})
 			.notNull()
 			.references(() => users.email),
-		createdAt: datetime('created_at').default(new Date()).notNull(),
+		createdAt: datetime('created_at').notNull(),
 		updatedAt: datetime('updated_at'),
 		hashedPassword: text('hashed_password').notNull(),
 		lastLogin: datetime('last_login').notNull(),
@@ -81,7 +81,7 @@ export const posts = mysqlTable('posts', {
 	creatorId: int('creator_id')
 		.notNull()
 		.references(() => users.id),
-	createdAt: datetime('created_at').default(new Date()).notNull(),
+	createdAt: datetime('created_at').notNull(),
 	text: text('text').notNull(),
 });
 
@@ -92,7 +92,7 @@ export const postLikes = mysqlTable(
 	'post_likes',
 	{
 		postId: int('post_id'),
-		createdAt: datetime('created_at').default(new Date()).notNull(),
+		createdAt: datetime('created_at').notNull(),
 		userId: int('user_id'),
 	},
 	(postLikes) => ({
