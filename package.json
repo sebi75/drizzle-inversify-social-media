@@ -16,6 +16,8 @@
 	"author": "Sebastian Semeniuc",
 	"license": "ISC",
 	"devDependencies": {
+		"@types/bcrypt": "^5.0.0",
+		"@types/jsonwebtoken": "^9.0.2",
 		"@types/node": "^20.4.0",
 		"drizzle-kit": "^0.19.3",
 		"nodemon": "^2.0.22",
@@ -25,6 +27,7 @@
 	},
 	"dependencies": {
 		"@types/express": "^4.17.17",
+		"bcrypt": "^5.1.0",
 		"dotenv": "^16.3.1",
 		"drizzle-orm": "^0.27.0",
 		"express": "^4.18.2",
@@ -33,6 +36,7 @@
 		"mysql2": "^3.5.0",
 		"postgres": "^3.3.5",
 		"reflect-metadata": "^0.1.13",
+		"winston": "^3.9.0",
 		"zod": "^3.21.4"
 	}
 }

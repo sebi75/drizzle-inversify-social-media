@@ -2,12 +2,22 @@ import { inject, injectable } from 'inversify';
 import { TYPES } from '@/lib/types';
 import { GetUsersParams } from './domain/user.domain';
 import UserRepository from '@/repositories/userRepository';
+import { User } from '@/db/schema';
 
 @injectable()
 class UserService {
 	constructor(
 		@inject(TYPES.UserRepository) private userRepository: UserRepository
 	) {}
+
+	createUser = async (params: {
+		age: string;
+		email: string;
+	}): Promise<User> => {
+		const result = await this.userRepository.createUser(params);
+		return result;
+	};
+
 	getUserById = async (id: number) => {
 		return await this.userRepository.getUserById(id);
 	};

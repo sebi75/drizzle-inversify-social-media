@@ -10,7 +10,10 @@ class Database {
 	constructor() {
 		this.connection = this.getConnection();
 	}
+
 	getConnection = () => {
+		if (this.connection) return this.connection;
+
 		console.log('Making new connection to the database...');
 
 		const connection = mysql2.createConnection({

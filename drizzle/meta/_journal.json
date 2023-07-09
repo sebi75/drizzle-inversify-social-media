@@ -36,6 +36,20 @@
       "when": 1688899823692,
       "tag": "0004_outstanding_patch",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1688902085156,
+      "tag": "0005_wet_captain_flint",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1688903907432,
+      "tag": "0006_sloppy_mach_iv",
+      "breakpoints": true
     }
   ]
 }

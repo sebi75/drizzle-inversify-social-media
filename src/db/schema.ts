@@ -16,7 +16,9 @@ export const users = mysqlTable(
 		id: int('id').primaryKey().autoincrement(),
 		email: varchar('email', {
 			length: 255,
-		}).notNull(),
+		})
+			.notNull()
+			.references(() => accounts.email),
 		age: int('age').notNull(),
 	},
 	(users) => ({
@@ -60,12 +62,11 @@ export const accounts = mysqlTable(
 		id: int('id').primaryKey().autoincrement(),
 		email: varchar('email', {
 			length: 255,
-		})
-			.notNull()
-			.references(() => users.email),
+		}).notNull(),
 		createdAt: datetime('created_at').notNull(),
 		updatedAt: datetime('updated_at'),
 		hashedPassword: text('hashed_password').notNull(),
+		salt: text('salt').notNull(),
 		lastLogin: datetime('last_login').notNull(),
 	},
 	(accounts) => ({
