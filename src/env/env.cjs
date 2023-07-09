@@ -12,6 +12,7 @@ export const envSchema = z.object({
 	DB_PASS: z.string(),
 	DB_NAME: z.string(),
 	DB_HOST: z.string(),
+	JWT_SECRET: z.string(),
 });
 
 /**
@@ -26,6 +27,7 @@ export const serverEnv = {
 	DB_PASS: process.env.DB_PASS,
 	DB_NAME: process.env.DB_NAME,
 	DB_HOST: process.env.DB_HOST,
+	JWT_SECRET: process.env.JWT_SECRET,
 };
 
 export const formatErrors = (

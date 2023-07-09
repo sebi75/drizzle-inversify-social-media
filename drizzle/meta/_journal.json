@@ -22,6 +22,13 @@
       "when": 1688846232824,
       "tag": "0002_last_sunset_bain",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1688897885737,
+      "tag": "0003_goofy_gideon",
+      "breakpoints": true
     }
   ]
 }

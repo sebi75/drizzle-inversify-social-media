@@ -1,37 +1,41 @@
 import {
 	mysqlTable,
 	text,
+	varchar,
 	int,
 	boolean,
 	uniqueIndex,
 	primaryKey,
+	datetime,
 } from 'drizzle-orm/mysql-core';
 import { InferModel } from 'drizzle-orm';
 
-export const users = mysqlTable('users', {
-	id: int('id').primaryKey().autoincrement(),
-	email: text('email').notNull(),
-	age: int('age').notNull(),
-});
+export const users = mysqlTable(
+	'users',
+	{
+		id: int('id').primaryKey().autoincrement(),
+		email: varchar('email', {
+			length: 255,
+		}).notNull(),
+		age: int('age').notNull(),
+	},
+	(users) => ({
+		uniqueIndex: uniqueIndex('email_idx').on(users.email),
+	})
+);
 
 export type User = InferModel<typeof users>;
 export type NewUser = InferModel<typeof users, 'insert'>;
 
-export const userProfile = mysqlTable(
-	'user_profile',
-	{
-		id: int('id').primaryKey().autoincrement(),
-		userId: int('user_id')
-			.notNull()
-			.references(() => users.id),
-		profilePicture: text('profile_picture').notNull(),
-		bio: text('bio').notNull(),
-		age: int('age').notNull(),
-	},
-	(userProfile) => ({
-		userIdIndex: uniqueIndex('user_id_idx').on(userProfile.userId),
-	})
-);
+export const userProfile = mysqlTable('user_profile', {
+	userId: int('user_id')
+		.primaryKey()
+		.references(() => users.id),
+	profilePicture: text('profile_picture').notNull(),
+	updatedAt: datetime('updated_at'),
+	bio: text('bio').notNull(),
+	age: int('age').notNull(),
+});
 
 export type UserProfile = InferModel<typeof userProfile>;
 export type NewUserProfile = InferModel<typeof userProfile, 'insert'>;
@@ -44,11 +48,40 @@ export const userEmailSettings = mysqlTable('user_email_settings', {
 	subscribed: boolean('subscribed').default(true),
 });
 
+export type UserEmailSettings = InferModel<typeof userEmailSettings>;
+export type NewUserEmailSettings = InferModel<
+	typeof userEmailSettings,
+	'insert'
+>;
+
+export const accounts = mysqlTable(
+	'accounts',
+	{
+		id: int('id').primaryKey().autoincrement(),
+		email: varchar('email', {
+			length: 255,
+		})
+			.notNull()
+			.references(() => users.email),
+		createdAt: datetime('created_at').default(new Date()).notNull(),
+		updatedAt: datetime('updated_at'),
+		hashedPassword: text('hashed_password').notNull(),
+		lastLogin: datetime('last_login').notNull(),
+	},
+	(accounts) => ({
+		emailIndex: uniqueIndex('email_idx').on(accounts.email),
+	})
+);
+
+export type Account = InferModel<typeof accounts>;
+export type NewAccount = InferModel<typeof accounts, 'insert'>;
+
 export const posts = mysqlTable('posts', {
 	id: int('id').primaryKey().autoincrement(),
 	creatorId: int('creator_id')
 		.notNull()
 		.references(() => users.id),
+	createdAt: datetime('created_at').default(new Date()).notNull(),
 	text: text('text').notNull(),
 });
 
@@ -59,6 +92,7 @@ export const postLikes = mysqlTable(
 	'post_likes',
 	{
 		postId: int('post_id'),
+		createdAt: datetime('created_at').default(new Date()).notNull(),
 		userId: int('user_id'),
 	},
 	(postLikes) => ({
