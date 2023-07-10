@@ -1,5 +1,5 @@
 import Database from '@/db/db';
-import { Account, accounts } from '@/db/schema';
+import { type Account, accounts } from '@/db/schema';
 import { TYPES } from '@/lib/types';
 import { eq } from 'drizzle-orm';
 import { inject, injectable } from 'inversify';
@@ -11,7 +11,6 @@ class AccountRepository {
 	createAccount = async ({
 		email,
 		hashedPassword,
-		salt,
 	}: {
 		email: string;
 		hashedPassword: string;

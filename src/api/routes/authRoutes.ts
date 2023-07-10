@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { Container } from 'inversify';
-import AuthController from '../controllers/AuthController';
+import { type Container } from 'inversify';
+import type AuthController from '../controllers/AuthController';
 import { TYPES } from '@/lib/types';
 
 export const authRoutes = (container: Container) => {

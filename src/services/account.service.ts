@@ -1,8 +1,8 @@
 import { inject, injectable } from 'inversify';
 import { TYPES } from '@/lib/types';
 import AccountRepository from '@/repositories/accountRepository';
-import { Account } from '@/db/schema';
-import { AccountDTO } from './domain/account.domain';
+import { type Account } from '@/db/schema';
+import { type AccountDTO } from './domain/account.domain';
 
 @injectable()
 class AccountService {

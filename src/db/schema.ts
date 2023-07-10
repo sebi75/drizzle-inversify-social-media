@@ -9,7 +9,7 @@ import {
 	primaryKey,
 	datetime,
 } from 'drizzle-orm/mysql-core';
-import { InferModel } from 'drizzle-orm';
+import { type InferModel } from 'drizzle-orm';
 
 export enum UserRole {
 	ADMIN = 'admin',
@@ -26,6 +26,8 @@ export const users = mysqlTable(
 			.notNull()
 			.references(() => accounts.email),
 		age: int('age').notNull(),
+		whitelisted: boolean('whitelisted').default(false),
+		banned: boolean('banned').default(false),
 		role: mysqlEnum('user_role', [UserRole.ADMIN, UserRole.USER])
 			.default(UserRole.USER)
 			.notNull(),

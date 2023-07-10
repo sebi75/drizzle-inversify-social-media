@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import Database from '@/db/db';
 import { TYPES } from '@/lib/types';
-import { User, users } from '@/db/schema';
+import { type User, users } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 
 @injectable()

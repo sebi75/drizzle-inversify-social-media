@@ -1,8 +1,8 @@
 import { inject, injectable } from 'inversify';
 import { TYPES } from '@/lib/types';
-import { GetUsersParams } from './domain/user.domain';
+import { type GetUsersParams } from './domain/user.domain';
 import UserRepository from '@/repositories/userRepository';
-import { User } from '@/db/schema';
+import { type User } from '@/db/schema';
 
 @injectable()
 class UserService {

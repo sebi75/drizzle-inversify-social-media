@@ -1,6 +1,6 @@
 import { TYPES } from '@/lib/types';
 import { injectable, inject } from 'inversify';
-import { Request, Response } from 'express';
+import { type Request, type Response } from 'express';
 import AuthService from '@/services/auth.service';
 import { AppError, BadRequestError } from '@/lib/errors';
 import { logger } from '@/utils/logger';
@@ -29,9 +29,7 @@ class AuthController {
 			});
 
 			logger.info('User just signed in: ', email);
-			res.status(StatusCode.OK).json({
-				token,
-			});
+			res.status(StatusCode.OK).json(token);
 		} catch (error) {
 			if (error instanceof AppError) {
 				res.status(error.statusCode).json({ message: error.message });

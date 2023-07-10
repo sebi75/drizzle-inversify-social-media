@@ -1,7 +1,7 @@
-import UserController from '@/api/controllers/UserController';
+import type UserController from '@/api/controllers/UserController';
 import { TYPES } from '@/lib/types';
 import { Router } from 'express';
-import { Container } from 'inversify';
+import { type Container } from 'inversify';
 
 export const userRoutes = (container: Container) => {
 	const router = Router();

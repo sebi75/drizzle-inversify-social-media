@@ -8,8 +8,8 @@ import {
 import JwtService from './jwt.service';
 import HashingService from './hashing.service';
 import UserService from './user.service';
-import { User } from '@/db/schema';
-import { TokenPayload } from './domain/auth.domain';
+import { type User } from '@/db/schema';
+import { type TokenPayload } from './domain/auth.domain';
 import AccountService from './account.service';
 
 @injectable()
