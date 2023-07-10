@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
 import { type Request, type Response } from 'express';
 import { StatusCode } from '@/types/statusCodes';
 import { type User, UserRole } from '@/db/schema';
@@ -32,6 +33,8 @@ export function Security(authorizedRoles?: UserRole[]): MethodDecorator {
 		descriptor.value = async function (...args: any[]) {
 			const req: Request = args[0];
 			const res: Response = args[1];
+			const instance = this;
+			const boundMethod = originalMethod.bind(instance);
 
 			logger.info('Security layer invoked');
 			const token = req.headers.authorization?.split(' ')[1];
@@ -65,7 +68,8 @@ export function Security(authorizedRoles?: UserRole[]): MethodDecorator {
 							role: user.role,
 						},
 					};
-					originalMethod.apply(this, args);
+
+					boundMethod(...args);
 					return;
 				} catch (error) {
 					logger.error('Access denied in security layer');
