@@ -4,10 +4,11 @@ export enum Dependendencies {
 	UserController = 'UserController',
 	Database = 'Database',
 	AuthController = 'AuthController',
-	AuthRepository = 'AuthRepository',
+	AccountRepository = 'AccountRepository',
 	AuthService = 'AuthService',
 	JwtService = 'JwtService',
 	HashingService = 'HashingService',
+	AccountService = 'AccountService',
 }
 
 export const TYPES = {
@@ -16,8 +17,9 @@ export const TYPES = {
 	Database: Symbol.for(Dependendencies.Database),
 	AuthController: Symbol.for(Dependendencies.AuthController),
 	UserRepository: Symbol.for(Dependendencies.UserRepository),
-	AuthRepository: Symbol.for(Dependendencies.AuthRepository),
+	AccountRepository: Symbol.for(Dependendencies.AccountRepository),
 	AuthService: Symbol.for(Dependendencies.AuthService),
 	JwtService: Symbol.for(Dependendencies.JwtService),
 	HashingService: Symbol.for(Dependendencies.HashingService),
+	AccountService: Symbol.for(Dependendencies.AccountService),
 };

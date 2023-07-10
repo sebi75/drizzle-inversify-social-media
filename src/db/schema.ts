@@ -2,6 +2,7 @@ import {
 	mysqlTable,
 	text,
 	varchar,
+	mysqlEnum,
 	int,
 	boolean,
 	uniqueIndex,
@@ -9,6 +10,11 @@ import {
 	datetime,
 } from 'drizzle-orm/mysql-core';
 import { InferModel } from 'drizzle-orm';
+
+export enum UserRole {
+	ADMIN = 'admin',
+	USER = 'user',
+}
 
 export const users = mysqlTable(
 	'users',
@@ -20,6 +26,9 @@ export const users = mysqlTable(
 			.notNull()
 			.references(() => accounts.email),
 		age: int('age').notNull(),
+		role: mysqlEnum('user_role', [UserRole.ADMIN, UserRole.USER])
+			.default(UserRole.USER)
+			.notNull(),
 	},
 	(users) => ({
 		uniqueIndex: uniqueIndex('email_idx').on(users.email),
@@ -66,7 +75,6 @@ export const accounts = mysqlTable(
 		createdAt: datetime('created_at').notNull(),
 		updatedAt: datetime('updated_at'),
 		hashedPassword: text('hashed_password').notNull(),
-		salt: text('salt').notNull(),
 		lastLogin: datetime('last_login').notNull(),
 	},
 	(accounts) => ({

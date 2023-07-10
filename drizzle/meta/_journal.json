@@ -50,6 +50,20 @@
       "when": 1688903907432,
       "tag": "0006_sloppy_mach_iv",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1689016231102,
+      "tag": "0007_goofy_strong_guy",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1689018186980,
+      "tag": "0008_strange_grim_reaper",
+      "breakpoints": true
     }
   ]
 }

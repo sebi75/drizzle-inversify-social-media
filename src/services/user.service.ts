@@ -18,6 +18,10 @@ class UserService {
 		return result;
 	};
 
+	getUserByEmail = async (email: string) => {
+		return await this.userRepository.getUserByEmail(email);
+	};
+
 	getUserById = async (id: number) => {
 		return await this.userRepository.getUserById(id);
 	};

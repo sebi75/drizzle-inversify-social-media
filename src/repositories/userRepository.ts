@@ -8,6 +8,19 @@ import { eq } from 'drizzle-orm';
 class UserRepository {
 	constructor(@inject(TYPES.Database) private db: Database) {}
 
+	getUserByEmail = async (email: string): Promise<User | null> => {
+		const user = await this.db
+			.getDb()
+			.select()
+			.from(users)
+			.where(eq(users.email, email));
+
+		if (user.length === 0) {
+			return null;
+		}
+		return user[0];
+	};
+
 	createUser = async (params: {
 		email: string;
 		age: string;

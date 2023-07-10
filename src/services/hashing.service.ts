@@ -19,8 +19,8 @@ class HashingService {
 		};
 	};
 
-	compare = (payload: string, hashedPayload: string) => {
-		return payload === hashedPayload;
+	compare = async (payload: string, hashedPayload: string) => {
+		return await bcrypt.compare(payload, hashedPayload);
 	};
 }
 

@@ -5,7 +5,7 @@ import { eq } from 'drizzle-orm';
 import { inject, injectable } from 'inversify';
 
 @injectable()
-class AuthRepository {
+class AccountRepository {
 	constructor(@inject(TYPES.Database) private db: Database) {}
 
 	createAccount = async ({
@@ -16,24 +16,17 @@ class AuthRepository {
 		email: string;
 		hashedPassword: string;
 		salt: string;
-	}): Promise<Omit<Account, 'hashedPassword' | 'salt'>> => {
+	}): Promise<Account> => {
 		const result = await this.db.getDb().insert(accounts).values({
 			email,
 			createdAt: new Date(),
-			salt,
 			hashedPassword,
 			lastLogin: new Date(),
 		});
 		const accountId = result[0].insertId;
 		const account = await this.db
 			.getDb()
-			.select({
-				id: accounts.id,
-				email: accounts.email,
-				createdAt: accounts.createdAt,
-				lastLogin: accounts.lastLogin,
-				updatedAt: accounts.updatedAt,
-			})
+			.select()
 			.from(accounts)
 			.where(eq(accounts.id, accountId));
 		return account[0];
@@ -52,4 +45,4 @@ class AuthRepository {
 	};
 }
 
-export default AuthRepository;
+export default AccountRepository;
