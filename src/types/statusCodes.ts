@@ -6,3 +6,11 @@ export enum StatusCode {
 	INTERNAL_SERVER_ERROR = 500,
 	FORBIDDEN = 403,
 }
+
+export enum ErrorMessage {
+	INTERNAL_SERVER_ERROR = 'Internal server error',
+	UNAUTHORIZED = 'Unauthorized',
+	NOT_FOUND = 'Not found',
+	BAD_REQUEST = 'Bad request',
+	FORBIDDEN = 'Forbidden',
+}

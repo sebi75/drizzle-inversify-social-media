@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-this-alias */
 import { type Request, type Response } from 'express';
-import { StatusCode } from '@/types/statusCodes';
+import { ErrorMessage, StatusCode } from '@/types/statusCodes';
 import { type User, UserRole } from '@/db/schema';
-import JwtService from '@/services/jwt.service';
+import type JwtService from '@/services/jwt.service';
 import { type TokenPayload } from '@/services/domain/auth.domain';
 import { logger } from '@/utils/logger';
 import { container } from '@/lib/ioc';
@@ -27,16 +26,17 @@ export function Security(authorizedRoles?: UserRole[]): MethodDecorator {
 		propertyKey: string | symbol,
 		descriptor: PropertyDescriptor
 	): void {
-		const jwtService = new JwtService();
+		const jwtService = container.get<JwtService>(TYPES.JwtService);
 		const originalMethod = descriptor.value;
 
 		descriptor.value = async function (...args: any[]) {
 			const req: Request = args[0];
 			const res: Response = args[1];
+			/* eslint-disable @typescript-eslint/no-this-alias */
 			const instance = this;
 			const boundMethod = originalMethod.bind(instance);
 
-			logger.info('Security layer invoked');
+			logger.info('Security::layer::called');
 			const token = req.headers.authorization?.split(' ')[1];
 			if (token) {
 				try {
@@ -49,18 +49,16 @@ export function Security(authorizedRoles?: UserRole[]): MethodDecorator {
 						authorizedRoles[0] === UserRole.ADMIN;
 					const isAdmin = (decodedToken.role as UserRole) === UserRole.ADMIN;
 					if (isOnlyAdmin && !isAdmin) {
-						throw new Error('Unauthorized');
+						throw new Error(ErrorMessage.UNAUTHORIZED);
 					}
 					const userService = container.get<UserService>(TYPES.UserService);
 					const user = (await userService.getUserById(
 						decodedToken.userId
 					)) as User;
 					if (user.banned) {
-						throw new Error('Unauthorized');
+						throw new Error(ErrorMessage.UNAUTHORIZED);
 					}
-					logger.info(
-						`User ${user.email} with id ${user.id} and role ${user.role} is authorized`
-					);
+					logger.info(`Access::Granted::${user.email}-${user.id}-${user.role}`);
 					req.ctx = {
 						user: {
 							email: user.email,
@@ -72,17 +70,17 @@ export function Security(authorizedRoles?: UserRole[]): MethodDecorator {
 					boundMethod(...args);
 					return;
 				} catch (error) {
-					logger.error('Access denied in security layer');
+					logger.error('Access::denied::in::security::layer');
 					res.status(StatusCode.UNAUTHORIZED).json({
-						message: 'Unauthorized',
+						message: ErrorMessage.UNAUTHORIZED,
 					});
 					return;
 				}
 			}
 
-			logger.error('Access denied in security layer');
+			logger.error('Access::denied::in::security::layer');
 			res.status(StatusCode.UNAUTHORIZED).json({
-				message: 'Unauthorized',
+				message: ErrorMessage.UNAUTHORIZED,
 			});
 			return;
 		};

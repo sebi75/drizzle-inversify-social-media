@@ -5,17 +5,22 @@ import { injectable } from 'inversify';
 
 @injectable()
 class Database {
-	private readonly connection: mysql2.Connection;
+	private connection: mysql2.Connection | undefined;
 
 	constructor() {
 		this.connection = this.getConnection();
 	}
 
 	getConnection = () => {
-		if (this.connection) return this.connection;
+		if (this.connection) {
+			return this.connection;
+		} else {
+			return this.createConnection();
+		}
+	};
 
-		console.log('Making new connection to the database...');
-
+	createConnection = () => {
+		console.log('Creating new connection to database...');
 		const connection = mysql2.createConnection({
 			host: env.DB_HOST,
 			port: parseInt(env.DB_PORT),
@@ -28,7 +33,7 @@ class Database {
 	};
 
 	getDb = () => {
-		return drizzle(this.connection);
+		return drizzle(this.getConnection());
 	};
 }
 
