@@ -8,6 +8,7 @@ import {
   uniqueIndex,
   primaryKey,
   datetime,
+  type AnyMySqlColumn,
 } from "drizzle-orm/mysql-core";
 import { type InferModel } from "drizzle-orm";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
@@ -96,6 +97,7 @@ export const accounts = mysqlTable(
     email: varchar("email", {
       length: 255,
     }).notNull(),
+    isVerified: boolean("is_verified").default(false),
     createdAt: datetime("created_at").notNull(),
     updatedAt: datetime("updated_at"),
     hashedPassword: text("hashed_password").notNull(),
@@ -109,13 +111,43 @@ export const accounts = mysqlTable(
 export type Account = InferModel<typeof accounts>;
 export type NewAccount = InferModel<typeof accounts, "insert">;
 
+export enum PostMediaType {
+  IMAGE = "image",
+  VIDEO = "video",
+}
+export enum PostPrivacy {
+  PUBLIC = "public",
+  PRIVATE = "private",
+}
+/**
+ * Acceptance criteria:
+ * - A user can have multiple posts
+ * - A post can have multiple likes
+ * - A user can like a post only once
+ * - A user can like their own post
+ * - A user can start a post by referecing other posts
+ * - A user can repost a post from other users
+ */
 export const posts = mysqlTable("posts", {
   id: int("id").primaryKey().autoincrement(),
   creatorId: int("creator_id")
     .notNull()
     .references(() => users.id),
-  imageURL: text("image_url").default(""),
+  updatedAt: datetime("updated_at"),
+  archived: boolean("archived").default(false), // when the user deletes a post, internally we just mark it as archived
+  isPossiblySensitive: boolean("is_possibly_sensitive").default(false),
+  mediaType: mysqlEnum("media_type", [
+    PostMediaType.IMAGE,
+    PostMediaType.VIDEO,
+  ]).notNull(),
+  referencesPostId: int("references_post_id").references(
+    (): AnyMySqlColumn => posts.id
+  ), // workaround due to typescript limitations
+  mediaURL: text("media_url").default(""),
   createdAt: datetime("created_at").notNull(),
+  privacy: mysqlEnum("privacy", [PostPrivacy.PRIVATE, PostPrivacy.PUBLIC])
+    .notNull()
+    .default(PostPrivacy.PUBLIC),
   text: text("text").notNull(),
 });
 
@@ -136,3 +168,20 @@ export const postLikes = mysqlTable(
 
 export type PostLike = InferModel<typeof postLikes>;
 export type NewPostLike = InferModel<typeof postLikes, "insert">;
+
+export const postReposts = mysqlTable(
+  "post_reposts",
+  {
+    postId: int("post_id").references(() => posts.id),
+    createdAt: datetime("created_at").notNull(),
+    userId: int("user_id").references(() => users.id),
+    repost_id: int("repost_id").references(() => posts.id),
+  },
+  (postReposts) => ({
+    // an individual user can only repost a post once
+    postRepostsIndex: primaryKey(postReposts.postId, postReposts.userId),
+  })
+);
+
+export type PostRepost = InferModel<typeof postReposts>;
+export type NewPostRepost = InferModel<typeof postReposts, "insert">;

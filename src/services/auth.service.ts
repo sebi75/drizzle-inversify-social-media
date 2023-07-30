@@ -29,6 +29,9 @@ class AuthService {
     if (!account) {
       throw new NotFoundError("Account not found");
     }
+    if (!account.isVerified) {
+      throw new BadRequestError("Account not verified");
+    }
 
     const isValid = await this.hashingService.compare(
       password,

@@ -1,4 +1,4 @@
-CREATE TABLE `posts` (
+CREATE TABLE if not exists `posts` (
 	`id` int AUTO_INCREMENT PRIMARY KEY NOT NULL,
 	`creator_id` int NOT NULL,
 	`text` text NOT NULL);
