@@ -16,70 +16,72 @@ class UserRepository {
   constructor(@inject(TYPES.Database) private db: Database) {}
 
   getUserByEmail = async (email: string) => {
-    const user = await this.db
+    const [user] = await this.db
       .getDb()
       .select()
       .from(users)
       .where(eq(users.email, email));
 
-    if (user.length === 0) {
-      return null;
-    }
-    return user[0];
+    return user;
   };
 
   createUser = async (params: { email: string; age: number }) => {
     const db = this.db.getDb();
 
-    const insertUserParams = {
-      email: params.email,
-      createdAt: new Date(),
-    };
-    const userInsertResult = await db.insert(users).values(insertUserParams);
-    const userId = userInsertResult[0].insertId;
-    const userResult = (
-      await db.select().from(users).where(eq(users.id, userId))
-    )[0];
+    const user = await db.transaction(async (tx) => {
+      const insertUserParams = {
+        email: params.email,
+        createdAt: new Date(),
+      };
+      const [userInsertResult] = await tx
+        .insert(users)
+        .values(insertUserParams);
+      const userId = userInsertResult.insertId;
+      const [userResult] = await tx
+        .select()
+        .from(users)
+        .where(eq(users.id, userId));
 
-    const profileParams = {
-      userId,
-      age: +params.age,
-      bio: "",
-      profilePicture: "",
-    };
-    // userProfileId is the userId
-    await db.insert(userProfile).values(profileParams);
-    const userProfileResult = (
-      await db.select().from(userProfile).where(eq(userProfile.userId, userId))
-    )[0];
+      const profileParams = {
+        userId,
+        age: params.age,
+        bio: "",
+        profilePicture: "",
+      };
+      // userProfileId is the userId
+      await tx.insert(userProfile).values(profileParams);
+      const [userProfileResult] = await tx
+        .select()
+        .from(userProfile)
+        .where(eq(userProfile.userId, userId));
 
-    return {
-      ...userResult,
-      profile: userProfileResult,
-    };
+      return {
+        ...userResult,
+        profile: userProfileResult,
+      };
+    });
+
+    return user;
   };
 
   createUserProfile = async (
     params: z.infer<typeof insertUserProfileSchema>
   ) => {
     const db = this.db.getDb();
-    const result = await db.insert(userProfile).values(params);
-    const userProfileId = result[0].insertId;
+    const [result] = await db.insert(userProfile).values(params);
+    const userProfileId = result.insertId;
     params.userId = userProfileId;
     return params;
   };
 
   getUserById = async (id: number) => {
-    const user = await this.db
+    const [user] = await this.db
       .getDb()
       .select()
       .from(users)
       .where(eq(users.id, id));
 
-    if (user.length === 0) {
-      return null;
-    }
-    return user[0] as User;
+    return user;
   };
 
   getUsers = async (params: {
@@ -111,9 +113,9 @@ class UserRepository {
   };
 
   getUserProfileById = async (userId: number) => {
-    return (
-      await this.db.getDb().select().from(users).where(eq(users.id, userId))
-    )[0];
+    const db = this.db.getDb();
+    const [result] = await db.select().from(users).where(eq(users.id, userId));
+    return result;
   };
 }
 
