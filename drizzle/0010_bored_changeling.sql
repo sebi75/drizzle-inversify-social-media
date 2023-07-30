@@ -1,0 +1,1 @@
+ALTER TABLE `posts` ADD `image_url` text DEFAULT ('');
