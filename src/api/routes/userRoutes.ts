@@ -9,6 +9,7 @@ export const userRoutes = (container: Container) => {
 
   router.get("/", userController.getUsers);
   router.get("/:id", userController.getUser);
+  router.post("/:id", userController.updateProfile);
 
   return router;
 };

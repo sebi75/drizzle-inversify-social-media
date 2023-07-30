@@ -8,16 +8,11 @@ import { logger } from "@/utils/logger";
 import { container } from "@/lib/ioc";
 import type UserService from "@/services/user.service";
 import { TYPES } from "@/lib/types";
+import { type Context } from "@/types/context";
 
 declare module "express" {
   interface Request {
-    ctx?: {
-      user: {
-        id: number;
-        email: string;
-        role: string;
-      };
-    };
+    ctx?: Context;
   }
 }
 

@@ -27,7 +27,6 @@ export const users = mysqlTable(
     })
       .notNull()
       .references(() => accounts.email),
-    age: int("age").notNull(),
     whitelisted: boolean("whitelisted").default(false),
     banned: boolean("banned").default(false),
     role: mysqlEnum("user_role", [UserRole.ADMIN, UserRole.USER])
@@ -44,7 +43,6 @@ export const users = mysqlTable(
 export const insertUserSchema = createInsertSchema(users, {
   role: z.string(),
 });
-
 // schema for inserting a user request
 export const insertUserRequestSchema = insertUserSchema.pick({
   email: true,
@@ -67,8 +65,15 @@ export const userProfile = mysqlTable("user_profile", {
   age: int("age").notNull(),
 });
 
+export const insertUserProfileSchema = createInsertSchema(userProfile);
+export const selectUserProfileSchema = createSelectSchema(userProfile);
+export const updateUserProfileSchemaRequest = insertUserProfileSchema.pick({
+  profilePicture: true,
+  bio: true,
+  age: true,
+});
+
 export type UserProfile = InferModel<typeof userProfile>;
-export type NewUserProfile = InferModel<typeof userProfile, "insert">;
 
 export const userEmailSettings = mysqlTable("user_email_settings", {
   id: int("id").primaryKey().autoincrement(),
