@@ -19,6 +19,9 @@ import HashingService from "@/services/hashing.service";
 import AuthService from "@/services/auth.service";
 import AccountRepository from "@/repositories/accountRepository";
 import AccountService from "@/services/account.service";
+import PostsRepository from "@/repositories/postsRepository";
+import PostsClassifierService from "@/services/posts-classifier.service";
+import PostsService from "@/services/posts.service";
 import { logger } from "@/utils/logger";
 
 logger.info("IOC::initiating-dependency-container");
@@ -33,6 +36,11 @@ container
 container.bind<AccountService>(TYPES.AccountService).to(AccountService);
 container.bind<AuthService>(TYPES.AuthService).to(AuthService);
 container.bind<HashingService>(TYPES.HashingService).to(HashingService);
+container.bind<PostsRepository>(TYPES.PostsRepository).to(PostsRepository);
+container.bind<PostsService>(TYPES.PostsService).to(PostsService);
+container
+  .bind<PostsClassifierService>(TYPES.PostsClassifierService)
+  .to(PostsClassifierService);
 
 // singleton
 container.bind<Database>(TYPES.Database).to(Database).inSingletonScope();

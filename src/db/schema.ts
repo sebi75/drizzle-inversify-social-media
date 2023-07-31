@@ -151,6 +151,16 @@ export const posts = mysqlTable("posts", {
   text: text("text").notNull(),
 });
 
+export const insertPostSchema = createInsertSchema(posts);
+export const selectPostSchema = createSelectSchema(posts);
+export const insertPostRequestSchema = insertPostSchema.pick({
+  referencesPostId: true,
+  mediaURL: true,
+  mediaType: true,
+  text: true,
+  privacy: true,
+});
+
 export type Post = InferModel<typeof posts>;
 export type NewPost = InferModel<typeof posts, "insert">;
 
