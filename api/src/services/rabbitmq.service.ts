@@ -12,8 +12,8 @@ class RabbitMqService {
   constructor() {}
 
   private getConnectionString() {
-    const user = env.rabbitmq.RABBITMQ_USER;
-    const pass = env.rabbitmq.RABBITMQ_PASS;
+    const user = env.RABBITMQ_USER;
+    const pass = env.RABBITMQ_PASS;
     return `amqp://${user}:${pass}@localhost:5672`;
   }
 
@@ -72,7 +72,8 @@ class RabbitMqService {
       throw new Error(`RabbitMQ::publish::channel::${queue}::not found`);
     }
     const messageBuffer = Buffer.from(JSON.stringify(message));
-    channel.sendToQueue(queue, messageBuffer);
+    const successfull = channel.sendToQueue(queue, messageBuffer);
+    return successfull;
   }
 
   closeQueue(queue: string) {

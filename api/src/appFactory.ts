@@ -15,7 +15,8 @@ export const createApp = async (withRoutes = true) => {
   const app = express();
   const rabbitmqService = container.get<RabbitMqService>(TYPES.RabbitMqService);
   try {
-    await rabbitmqService.initialize(["posts-classifier", "notifications"]);
+    logger.info("Worker::initiating::rabbitmq::channels");
+    await rabbitmqService.initialize(["test", "notifications"]);
   } catch (error) {
     logger.error("RabbitMQ::initialize::error", error);
     process.exit(1);
@@ -27,6 +28,16 @@ export const createApp = async (withRoutes = true) => {
     app.get("/ping", (req: Request, res: Response) => {
       return res.send({
         message: "pong",
+      });
+    });
+
+    app.post("/publish-test", (req: Request, res: Response) => {
+      const params = {
+        message: "test",
+      };
+      const success = rabbitmqService.publish("test", params);
+      return res.send({
+        message: success ? "success" : "failed",
       });
     });
 
