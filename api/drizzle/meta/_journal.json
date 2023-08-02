@@ -1,0 +1,97 @@
+{
+  "version": "5",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1688817967438,
+      "tag": "0000_dry_blur",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1688818813128,
+      "tag": "0001_worthless_captain_stacy",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1688846232824,
+      "tag": "0002_last_sunset_bain",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1688897885737,
+      "tag": "0003_goofy_gideon",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1688899823692,
+      "tag": "0004_outstanding_patch",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1688902085156,
+      "tag": "0005_wet_captain_flint",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1688903907432,
+      "tag": "0006_sloppy_mach_iv",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1689016231102,
+      "tag": "0007_goofy_strong_guy",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1689018186980,
+      "tag": "0008_strange_grim_reaper",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1689027991009,
+      "tag": "0009_mature_the_phantom",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1690713257435,
+      "tag": "0010_bored_changeling",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1690748319569,
+      "tag": "0011_cheerful_firelord",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1690748450128,
+      "tag": "0012_certain_darkhawk",
+      "breakpoints": true
+    }
+  ]
+}

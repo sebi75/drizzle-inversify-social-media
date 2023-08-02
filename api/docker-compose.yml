@@ -1,0 +1,24 @@
+version: "3"
+# this should be used if one wants to open
+# only the api for testing purposes without messaging broker
+services:
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 8081:8081
+    environment:
+      DB_HOST: db # when using docker-compose
+    command: "./scripts/wait-for.sh db:3306 -- pnpm start"
+    depends_on:
+      - db
+  db:
+    platform: linux/amd64 # for M1 Mac to work
+    image: mysql:8.0.26
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    volumes:
+      - ./db-data:/var/lib/mysql
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d

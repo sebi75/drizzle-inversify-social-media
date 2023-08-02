@@ -1,0 +1,1 @@
+ALTER TABLE `accounts` ADD `salt` text NOT NULL;
