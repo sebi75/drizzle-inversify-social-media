@@ -6,6 +6,8 @@ services:
     ports:
       - 8081:8081
     command: "./scripts/wait-for.sh db:3306 -- pnpm start"
+    environment:
+      - QUEUE_TYPE: "rabbitmq"
     depends_on:
       - db
       - rabbitmq
@@ -19,13 +21,16 @@ services:
     volumes:
       - ./api/db-data:/var/lib/mysql
       - ./api/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-  queue-worker:
-    build:
-      context: ./api
-      dockerfile: Dockerfile-queue-worker
-    depends_on:
-      - rabbitmq
-      - db
+  # queue-worker:
+  #   build:
+  #     context: ./api
+  #     dockerfile: Dockerfile-queue-worker
+  #   command: "./scripts/wait-for.sh db:3306 -- pnpm start"
+  #   environment:
+  #     - QUEUE_TYPE: "main-queue"
+  #   depends_on:
+  #     - rabbitmq
+  #     - db
   rabbitmq:
     image: rabbitmq:3-management
     ports:

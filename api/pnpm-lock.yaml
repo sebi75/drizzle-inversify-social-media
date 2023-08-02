@@ -61,6 +61,9 @@ devDependencies:
   '@babel/preset-env':
     specifier: ^7.22.9
     version: 7.22.9(@babel/core@7.22.9)
+  '@types/amqplib':
+    specifier: ^0.10.1
+    version: 0.10.1
   '@types/bcrypt':
     specifier: ^5.0.0
     version: 5.0.0
@@ -1910,6 +1913,12 @@ packages:
 
   /@tsconfig/node16@1.0.4:
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
+    dev: true
+
+  /@types/amqplib@0.10.1:
+    resolution: {integrity: sha512-j6ANKT79ncUDnAs/+9r9eDujxbeJoTjoVu33gHHcaPfmLQaMhvfbH2GqSe8KUM444epAp1Vl3peVOQfZk3UIqA==}
+    dependencies:
+      '@types/node': 20.4.0
     dev: true
 
   /@types/bcrypt@5.0.0:

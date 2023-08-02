@@ -13,6 +13,11 @@ export const envSchema = z.object({
   DB_NAME: z.string(),
   DB_HOST: z.string(),
   JWT_SECRET: z.string(),
+  rabbitmq: z.object({
+    RABBITMQ_USER: z.string(),
+    RABBITMQ_PASS: z.string(),
+  }),
+  QUEUE_TYPE: z.string(), // for consumers
 });
 
 /**
@@ -28,6 +33,11 @@ export const serverEnv = {
   DB_NAME: process.env.DB_NAME,
   DB_HOST: process.env.DB_HOST,
   JWT_SECRET: process.env.JWT_SECRET,
+  rabbitmq: {
+    RABBITMQ_PASS: process.env.RABBITMQ_PASS,
+    RABBITMQ_USER: process.env.RABBITMQ_USER,
+  },
+  QUEUE_TYPE: process.env.QUEUE_TYPE,
 };
 
 export const formatErrors = (

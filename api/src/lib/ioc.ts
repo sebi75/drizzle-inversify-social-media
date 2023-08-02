@@ -22,6 +22,8 @@ import AccountService from "@/services/account.service";
 import PostsRepository from "@/repositories/postsRepository";
 import PostsClassifierService from "@/services/posts-classifier.service";
 import PostsService from "@/services/posts.service";
+import WorkerProcessorService from "@/services/worker-processor.service";
+import RabbitMqService from "@/services/rabbitmq.service";
 import { logger } from "@/utils/logger";
 
 logger.info("IOC::initiating-dependency-container");
@@ -41,9 +43,16 @@ container.bind<PostsService>(TYPES.PostsService).to(PostsService);
 container
   .bind<PostsClassifierService>(TYPES.PostsClassifierService)
   .to(PostsClassifierService);
+container
+  .bind<WorkerProcessorService>(TYPES.WorkerProcessorService)
+  .to(WorkerProcessorService);
 
 // singleton
 container.bind<Database>(TYPES.Database).to(Database).inSingletonScope();
+container
+  .bind<RabbitMqService>(TYPES.RabbitMqService)
+  .to(RabbitMqService)
+  .inSingletonScope();
 
 logger.info("IOC::dependency-container-initiated::exporting-container");
 
