@@ -1,0 +1,36 @@
+services:
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 8081:8081
+    command: "./scripts/wait-for.sh db:3306 -- pnpm start"
+    depends_on:
+      - db
+      - rabbitmq
+      - queue-worker
+  db:
+    platform: linux/amd64 # for M1 Mac to work
+    image: mysql:8.0.26
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    volumes:
+      - ./api/db-data:/var/lib/mysql
+      - ./api/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+  queue-worker:
+    build:
+      context: ./api
+      dockerfile: Dockerfile-queue-worker
+    depends_on:
+      - rabbitmq
+      - db
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: "user"
+      RABBITMQ_DEFAULT_PASS: "password"

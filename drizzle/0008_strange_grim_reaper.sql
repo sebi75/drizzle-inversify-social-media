@@ -1,1 +1,0 @@
-ALTER TABLE `users` ADD `user_role` enum('admin','user') DEFAULT 'user' NOT NULL;
