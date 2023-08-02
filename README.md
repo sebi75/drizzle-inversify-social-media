@@ -12,7 +12,7 @@ with publisher-consumer pattern where it makes sense ( like feed generations )
 
 2. To make it easier to split the services for deployment, considering for example the queue worker will be another instance(s) that will be running on a different machine.
 
-3. It is the closest feel to a compiled language, the result being only one js minified bundle file that can be run on any machine that has the right nodejs version, without other hassles.
+3. It is the closest feel to a compiled language, the result being only one js minified bundle file that can be run on any machine that has the right nodejs version, only with pnpm install, pnpm build and pnpm start.
 
 ## Why am I using docker and docker-compose?
 
