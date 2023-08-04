@@ -14,6 +14,7 @@ export enum Dependendencies {
   PostsClassifierService = "PostsClassifierService",
   WorkerProcessorService = "WorkerProcessorService",
   RabbitMqService = "RabbitMqService",
+  PostsController = "PostsController",
 }
 
 export const TYPES = {
@@ -32,4 +33,5 @@ export const TYPES = {
   PostsClassifierService: Symbol.for(Dependendencies.PostsClassifierService),
   WorkerProcessorService: Symbol.for(Dependendencies.WorkerProcessorService),
   RabbitMqService: Symbol.for(Dependendencies.RabbitMqService),
+  PostsController: Symbol.for(Dependendencies.PostsController),
 };

@@ -3,5 +3,6 @@ export type Json =
   | number
   | boolean
   | null
+  | Date
   | Json[]
   | { [key: string]: Json };

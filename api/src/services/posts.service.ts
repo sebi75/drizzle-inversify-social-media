@@ -9,12 +9,14 @@ import { type z } from "zod";
 import UserService from "./user.service";
 import { NotFoundError, UnauthorizedError } from "@/lib/errors";
 import PostsClassifierService from "./posts-classifier.service";
+import RabbitMqService from "./rabbitmq.service";
 
 @injectable()
 class PostsService {
   constructor(
     @inject(TYPES.PostsRepository) private postsRepository: PostsRepository,
     @inject(TYPES.UserService) private userService: UserService,
+    @inject(TYPES.RabbitMqService) private rabbitmqService: RabbitMqService,
     @inject(TYPES.PostsClassifierService)
     private postsClassifierService: PostsClassifierService
   ) {}
@@ -40,6 +42,15 @@ class PostsService {
       isPossiblySensitive: classificationResult.isPossiblySensitive,
     };
     const post = await this.postsRepository.createPost(insertParams);
+
+    // send message for notificating subscribed users about the new post
+    const queueType = "new-post";
+    const messageData = {
+      postId: post.id,
+      creatorId: userId,
+      createdAt: post.createdAt,
+    };
+    this.rabbitmqService.publish(queueType, messageData);
     return post;
   }
 
